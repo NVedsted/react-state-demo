@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
+import todosReducer from "./todosReducer";
 
 const INITIAL_TODOS = [
   { id: 1, title: "Do laundy", done: false },
@@ -8,23 +9,19 @@ const INITIAL_TODOS = [
   { id: 3, title: "Prepare dinner", done: false },
 ];
 
-function nextId(todos) {
-  return Math.max(...[0, ...todos.map((t) => t.id)]) + 1;
-}
-
 function App() {
-  const [todos, setTodos] = useState(INITIAL_TODOS);
+  const [todos, dispatch] = useReducer(todosReducer, INITIAL_TODOS);
 
   function addTodo(title) {
-    setTodos([...todos, { id: nextId(todos), title, done: false }]);
+    dispatch({ type: "add", title });
   }
 
   function setDone(id, done) {
-    setTodos(todos.map((t) => (t.id === id ? { ...t, done } : t)));
+    dispatch({ type: "setDone", id, done });
   }
 
   function deleteTodo(id) {
-    setTodos(todos.filter((t) => t.id !== id));
+    dispatch({ type: "delete", id });
   }
 
   return (

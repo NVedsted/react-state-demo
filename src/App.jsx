@@ -1,6 +1,6 @@
 import AddTodo from "./AddTodo";
-import TodoItem from "./TodoItem";
-import useTodos from "./useTodos";
+import Todos from "./Todos";
+import { TodosProvider } from "./TodosContext";
 
 const INITIAL_TODOS = [
   { id: 1, title: "Do laundy", done: false },
@@ -9,24 +9,12 @@ const INITIAL_TODOS = [
 ];
 
 function App() {
-  const { todos, addTodo, setDone, deleteTodo } = useTodos(INITIAL_TODOS);
-
   return (
-    <>
+    <TodosProvider initialTodos={INITIAL_TODOS}>
       <h1>Todos</h1>
-      <AddTodo onNewTodo={addTodo} />
-      <ul>
-        {todos.map((t) => (
-          <li key={t.id}>
-            <TodoItem
-              todo={t}
-              onDelete={() => deleteTodo(t.id)}
-              onDoneChanged={(done) => setDone(t.id, done)}
-            />
-          </li>
-        ))}
-      </ul>
-    </>
+      <AddTodo />
+      <Todos />
+    </TodosProvider>
   );
 }
 

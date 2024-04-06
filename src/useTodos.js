@@ -1,20 +1,36 @@
-import todosReducer from "./todosReducer";
-import { useReducer } from "react";
+import { TodosContext } from "./TodosContext";
+import { useCallback, useContext } from "react";
 
-export default function useTodos(initialTodos) {
-  const [todos, dispatch] = useReducer(todosReducer, initialTodos);
+export default function useTodos() {
+  const { todos, dispatch } = useContext(TodosContext);
 
-  function addTodo(title) {
-    dispatch({ type: "add", title });
-  }
+  const addTodo = useCallback(
+    (title) => {
+      dispatch({ type: "add", title });
+    },
+    [dispatch]
+  );
 
-  function setDone(id, done) {
-    dispatch({ type: "setDone", id, done });
-  }
+  const setDone = useCallback(
+    (id, done) => {
+      dispatch({ type: "setDone", id, done });
+    },
+    [dispatch]
+  );
 
-  function deleteTodo(id) {
-    dispatch({ type: "delete", id });
-  }
+  const deleteTodo = useCallback(
+    (id) => {
+      dispatch({ type: "delete", id });
+    },
+    [dispatch]
+  );
 
-  return { todos, addTodo, setDone, deleteTodo };
+  const findTodo = useCallback(
+    (id) => {
+      return todos.find((t) => t.id === id);
+    },
+    [todos]
+  );
+
+  return { todos, addTodo, setDone, deleteTodo, findTodo };
 }

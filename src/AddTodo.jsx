@@ -1,10 +1,12 @@
-import PropTypes from "prop-types";
+import useTodos from "./useTodos";
 import { useState } from "react";
-export default function AddTodo({ onNewTodo }) {
+
+export default function AddTodo() {
   const [title, setTitle] = useState("");
+  const { addTodo } = useTodos();
 
   function handleSubmit(event) {
-    onNewTodo(title);
+    addTodo(title);
     setTitle("");
     event.preventDefault();
   }
@@ -20,7 +22,3 @@ export default function AddTodo({ onNewTodo }) {
     </div>
   );
 }
-
-AddTodo.propTypes = {
-  onNewTodo: PropTypes.func.isRequired,
-};

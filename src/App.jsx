@@ -1,7 +1,6 @@
-import { useReducer } from "react";
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
-import todosReducer from "./todosReducer";
+import useTodos from "./useTodos";
 
 const INITIAL_TODOS = [
   { id: 1, title: "Do laundy", done: false },
@@ -10,19 +9,7 @@ const INITIAL_TODOS = [
 ];
 
 function App() {
-  const [todos, dispatch] = useReducer(todosReducer, INITIAL_TODOS);
-
-  function addTodo(title) {
-    dispatch({ type: "add", title });
-  }
-
-  function setDone(id, done) {
-    dispatch({ type: "setDone", id, done });
-  }
-
-  function deleteTodo(id) {
-    dispatch({ type: "delete", id });
-  }
+  const { todos, addTodo, setDone, deleteTodo } = useTodos(INITIAL_TODOS);
 
   return (
     <>
